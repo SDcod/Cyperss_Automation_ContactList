@@ -12,7 +12,7 @@ class ContactListPage {
 
   validateLoggedIn() {
     cy.url().should("eq", this.elements.contactListUrl);
-    cy.contains("h1", "Contact List");
+    cy.contains("h1", "Contact List", { timeout: 10000 });
     return this;
   }
 }

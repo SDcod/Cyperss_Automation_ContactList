@@ -34,14 +34,12 @@ class RegistrationPage {
     return this;
   }
 
-  validateExistingUserError() {
-    this.elements
-      .errorMessage()
-      .should("have.text", "Email address is already in use");
+  validateRegistrationError(expected) {
+    this.elements.errorMessage().should("have.text", expected);
     return this;
   }
 
-  //method for Data driven inputs
+  //method for Data driven inputs to fill entire registration form
   fillRegistraionDetails(userType, dataObject) {
     let firstName = dataObject[userType].firstName;
     let lastName = dataObject[userType].lastName;
