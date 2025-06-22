@@ -2,13 +2,16 @@
 // ---Test Case Description---	      ---Tags---
 // Register with valid user	        smoke, regression
 // Register with existing user	    regression
-// Login with valid credentials	    smoke, regression
-// Login with invalid credentials	  regression
-// Logout	                          smoke, regression
+// Register with missing first name regression
+// Register with missing last name  -
+// Register with missing email      regression
+// Register with invalid email      smoke,regression
+// Register with missing password   -
+// Register with weak password      -
 
 import LoginPage from "../../../../pages/LoginPage";
 import ContactListPage from "../../../../pages/ContactListPage";
-import RegistrationPage from "../../../../support/RegistrationPage";
+import RegistrationPage from "../../../../pages/RegistrationPage";
 //setup and teardown methods implemented using API requests
 
 describe("Sprint 01 - Authentication Suite - Registration", () => {
@@ -28,7 +31,7 @@ describe("Sprint 01 - Authentication Suite - Registration", () => {
     cy.visit("/");
   });
 
-  it("Register with valid user", () => {
+  it("Register with valid user", { tags: ["@smoke", "@regression"] }, () => {
     currentUser = "validRegistrableUser";
     //click signup button and navigate to it
     LoginPage.clickSignup();
@@ -44,7 +47,7 @@ describe("Sprint 01 - Authentication Suite - Registration", () => {
     cy.deleteUser();
   });
 
-  it("Register with existing user", () => {
+  it("Register with existing user", { tags: ["@regression"] }, () => {
     currentUser = "existingUser";
 
     //click signup button and navigate to it
@@ -59,7 +62,7 @@ describe("Sprint 01 - Authentication Suite - Registration", () => {
       );
   });
 
-  it("Register with missing first name", () => {
+  it("Register with missing first name", { tags: ["@regression"] }, () => {
     currentUser = "missingFirstName";
 
     //click signup button and navigate to it
@@ -74,7 +77,7 @@ describe("Sprint 01 - Authentication Suite - Registration", () => {
       );
   });
 
-  it("Register with missing last name", () => {
+  it("Register with missing last name", { tags: ["@regression"] }, () => {
     currentUser = "missingLastName";
 
     //click signup button and navigate to it
@@ -89,7 +92,7 @@ describe("Sprint 01 - Authentication Suite - Registration", () => {
       );
   });
 
-  it("Register with missing email", () => {
+  it("Register with missing email", { tags: ["@regression"] }, () => {
     currentUser = "missingEmail";
 
     //click signup button and navigate to it
@@ -104,7 +107,7 @@ describe("Sprint 01 - Authentication Suite - Registration", () => {
       );
   });
 
-  it("Register with invalid email", () => {
+  it("Register with invalid email", { tags: ["@smoke", "@regression"] }, () => {
     currentUser = "invalidEmail";
 
     //click signup button and navigate to it

@@ -1,13 +1,12 @@
 //Test Cases automated in Sprint01 ER02
-// ---Test Case Description---	      ---Tags---
-// Login with valid credentials	      smoke, regression
-// Login with invalid credentials	  regression
-// Logout	                          smoke, regression
+// ---Test Case Description---	              ---Tags---
+// Login with valid credentials and logout     smoke, regression
+// Login with invalid credentials	             regression
 
 import LoginPage from "../../../../pages/LoginPage";
 import ContactListPage from "../../../../pages/ContactListPage";
 
-describe("Sprint 01 - Authentication Suite - Registration", () => {
+describe("Sprint 01 - Authentication Suite - Login", () => {
   let user_credentials = {};
 
   before(() => {
@@ -22,14 +21,30 @@ describe("Sprint 01 - Authentication Suite - Registration", () => {
     cy.visit("/");
   });
 
-  it("Login with valid credentials", () => {
+  it(
+    "Login with valid credentials",
+    { tags: ["@smoke", "@regression"] },
+    () => {
+      //validate login page url
+      cy.contains("p", "Log In:", { matchCase: false });
+
+      LoginPage.enterEmail(user_credentials.existingUser.email)
+        .enterPassword(user_credentials.existingUser.password)
+        .clickSubmit();
+
+      ContactListPage.validateLoggedIn().clickLogout();
+    }
+  );
+
+  it("Login with invalid credentials", { tags: ["@regression"] }, () => {
+    //tag:smoke
+
     //validate login page url
     cy.contains("p", "Log In:", { matchCase: false });
 
-    LoginPage.enterEmail(user_credentials.existingUser.email)
-      .enterPassword(user_credentials.existingUser.password)
-      .clickSubmit();
-
-    ContactListPage.validateLoggedIn().clickLogout();
+    LoginPage.enterEmail(user_credentials.invalidEmail.email)
+      .enterPassword(user_credentials.invalidEmail.password)
+      .clickSubmit()
+      .validateInvalidCredentials();
   });
 });

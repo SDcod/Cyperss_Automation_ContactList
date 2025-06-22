@@ -2,26 +2,24 @@
 
 Cypress + JS + POM + GithubActions (cicd)
 
-TestCase Type separation strategy - using JS modules
+TestCase Type separation strategy - using JS grep tags
+
+reporting - using mochaawesome reports
 
 Folder Structure
 cypress/
 ├── e2e/
-│   ├── smoke/
-│   │   └── smoke_auth.cy.js
-│   │   └── smoke_contacts.cy.js
-│   ├── regression/
-│   │   └── regression_auth.cy.js
-│   │   └── regression_contacts.cy.js
-│   └── common/
-│       └── contacts_test_cases.js
+│   ├── SprintID/
+│       └── ER_01_ID.cy.js
+│       └── ER_02_ID.cy.js 
 ├── fixtures/
 │   └── user_credentials.json
 │   └── contact_data.json
 ├── pages/
-│   ├── loginPage.js
-│   ├── registerPage.js
-│   ├── contactListPage.js
+│   ├── LoginPage.js
+│   ├── RegisterPage.js
+│   ├── ContactListPage.js
 ├── support/
 │   └── commands.js
+|   └── e2e.js
 └── reports/
