@@ -4,12 +4,16 @@
   "description": "Contact List test project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "smoke-chrome-headed": "npx cypress run --headed --browser chrome --env grepTags=smoke",
+    "smoke-chrome": "npx cypress run --browser chrome --env grepTags=@smoke",
+    "regression-chrome": "npx cypress run --browser chrome --env grepTags=@regression"
   },
   "keywords": [],
   "author": "Swaroop",
   "license": "ISC",
   "devDependencies": {
+    "@cypress/grep": "^4.1.0",
     "cypress": "^14.4.1"
   }
 }

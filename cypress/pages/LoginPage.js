@@ -4,6 +4,7 @@ class LoginPage {
     passwordInput: () => cy.get("#password"),
     submitBtn: () => cy.get("#submit"),
     signupBtn: () => cy.get("#signup"),
+    errorMsg: () => cy.get("#error", { timeout: 8000 }),
   };
 
   enterEmail(email) {
@@ -23,6 +24,12 @@ class LoginPage {
   clickSignup() {
     this.elements.signupBtn().should("be.visible").click();
     return this;
+  }
+
+  validateInvalidCredentials() {
+    this.elements
+      .errorMsg()
+      .should("have.text", "Incorrect username or password");
   }
 }
 
