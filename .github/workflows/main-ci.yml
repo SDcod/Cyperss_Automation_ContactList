@@ -34,7 +34,7 @@ jobs:
         with:
           name: Mocha-report-chrome-smoke
           path: cypress/reports/smoke-html 
-          retention-days:7
+          retention-days: 7
 
 
 # ------------------------- Regression --------------------------
