@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Mocha-report-chrome-smoke
-          path: cypress/reports/smoke-html 
+          path: cypress/reports/html 
           retention-days: 7
 
 
@@ -63,7 +63,7 @@ jobs:
         if: always()
         with:
           name: mochawesome-regression
-          path: cypress/reports/regression-html
+          path: cypress/reports/html
           retention-days: 14
 
 
