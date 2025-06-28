@@ -28,9 +28,10 @@ describe("Sprint 01 - Authentication Suite - Login", () => {
       //validate login page url
       cy.contains("p", "Log In:", { matchCase: false });
 
-      LoginPage.enterEmail(user_credentials.existingUser.email)
-        .enterPassword(user_credentials.existingUser.password)
-        .clickSubmit();
+      LoginPage.fillLoginDetails(
+        "existingUser",
+        user_credentials
+      ).clickSubmit();
 
       ContactListPage.validateLoggedIn().clickLogout();
     }
@@ -42,8 +43,7 @@ describe("Sprint 01 - Authentication Suite - Login", () => {
     //validate login page url
     cy.contains("p", "Log In:", { matchCase: false });
 
-    LoginPage.enterEmail(user_credentials.invalidEmail.email)
-      .enterPassword(user_credentials.invalidEmail.password)
+    LoginPage.fillLoginDetails("invalidEmail", user_credentials)
       .clickSubmit()
       .validateInvalidCredentials();
   });

@@ -46,6 +46,12 @@ class RegistrationPage {
     let email = dataObject[userType].email;
     let password = dataObject[userType].password;
 
+    //use the actual credentials through env file
+    if (userType == "existingUser") {
+      email = Cypress.env("USER_EMAIL");
+      password = Cypress.env("USER_PASSWORD");
+    }
+
     if (firstName) {
       this.elements.firstNameInput().should("be.visible").type(firstName);
     }
