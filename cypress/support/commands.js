@@ -4,7 +4,7 @@ Cypress.Commands.add("inputField", (selector, value) => {
   if (value) {
     return selector.should("be.visible").type(value);
   } else {
-    return selector.emailInput().should("be.visible");
+    return "empty field value";
   }
 });
 
@@ -26,4 +26,11 @@ Cypress.Commands.add("deleteUser", () => {
         expect(res.status).equal(200);
       });
     });
+});
+
+//command to logout from the application
+
+Cypress.Commands.add("Logout", () => {
+  cy.get("#logout").click();
+  cy.get("#signup", { timeout: 10000 }).should("be.visible");
 });

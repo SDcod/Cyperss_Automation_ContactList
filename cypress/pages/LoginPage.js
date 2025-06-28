@@ -26,6 +26,25 @@ class LoginPage {
     return this;
   }
 
+  fillLoginDetails(userType, dataObject) {
+    let email = dataObject[userType].email;
+    let password = dataObject[userType].password;
+
+    //use the actual credentials through env file
+    if (userType == "existingUser") {
+      email = Cypress.env("USER_EMAIL");
+      password = Cypress.env("USER_PASSWORD");
+    }
+
+    if (email) {
+      this.enterEmail(email);
+    }
+    if (password) {
+      this.enterPassword(password);
+    }
+    return this;
+  }
+
   validateInvalidCredentials() {
     this.elements
       .errorMsg()
