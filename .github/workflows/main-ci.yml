@@ -25,7 +25,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          command: npm run smoke-chrome
+          command: npm run cy-run-ui-smoke-chrome
 
     #uploads the test results under cypress/reports folder
       - name: Upload test results
@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Mocha-report-chrome-smoke
-          path: cypress/reports/smoke-html 
+          path: cypress/reports/html 
           retention-days: 7
 
 
@@ -56,14 +56,52 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          command: npm run regression-chrome     # <-- your script
+          command: npm run cy-run-ui-regression-chrome     # <-- your script
 
       - name: Upload Regression Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
           name: mochawesome-regression
-          path: cypress/reports/regression-html
+          path: cypress/reports/html
           retention-days: 14
 
+# ------------------------- API tests smoke --------------------------
+  cypress-run-api-smoke:
+    name: Smoke API Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    env:
+      CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+      
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cypress_run_api_smoke_tests
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          command: npm run cy-run-api-smoke
+
+  # ------------------------- API tests regression ----------------------------
+
+  cypress-run-api-regression:
+    name: Regression Suite
+    runs-on: ubuntu-latest
+    needs: cypress-run-api-smoke                     # ➜ runs only if smoke succeeded
+    timeout-minutes: 30
+
+    env:
+      CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run regression tests
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          command: npm run cy-run-api-regression     # <-- your script
 
