@@ -7,3 +7,7 @@ export const randomEmail = () => {
 export const randomFullName = () => {
   return faker.person.fullName(); // Rowan Nikolaus
 };
+
+export const randomFirstName = () => {
+  return faker.person.firstName(); // Rowan
+};

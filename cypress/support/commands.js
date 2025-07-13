@@ -28,6 +28,26 @@ Cypress.Commands.add("deleteUser", () => {
     });
 });
 
+//command to delete contacts
+
+Cypress.Commands.add("deleteContact", (id) => {
+  cy.getCookie("token", { timeout: 12000 })
+    .should("exist")
+    .then((token) => {
+      cy.log(`bearer token ${token.value}`);
+
+      cy.request({
+        method: "DELETE",
+        url: `https://thinking-tester-contact-list.herokuapp.com/contacts/${id}`,
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+        },
+      }).then((res) => {
+        expect(res.status).equal(200);
+      });
+    });
+});
+
 //command to logout from the application
 
 Cypress.Commands.add("Logout", () => {
