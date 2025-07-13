@@ -24,8 +24,8 @@ module.exports = defineConfig({
     viewportWidth: 1920,
     viewportHeight: 1080,
     retries: { runMode: 1, openMode: 0 },
-    watchForFileChanges: false,
     video: true,
     videoCompression: 40,
   },
+  watchForFileChanges: false,
 });

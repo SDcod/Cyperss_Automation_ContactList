@@ -18,6 +18,11 @@ class ContactDetailsPage {
     return this;
   }
 
+  clickEditContact() {
+    this.elements.editContact().click();
+    return this;
+  }
+
   confirmDeletePrompt(decision) {
     cy.window().then((win) => {
       if (decision == true) {
