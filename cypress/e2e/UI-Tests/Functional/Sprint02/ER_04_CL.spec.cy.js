@@ -7,7 +7,7 @@ import LoginPage from "../../../../pages/LoginPage";
 import ContactListPage from "../../../../pages/ContactListPage";
 import ContactDetailsPage from "../../../../pages/ContactDetailsPage";
 import AddContactPage from "../../../../pages/AddContactPage";
-import EditcontactPage from "../../../../pages/EditcontactPage";
+import EditContactPage from "../../../../pages/Editcontact_Page";
 
 describe("Sprint 02 - Conctact Suite - Contact Modifications", () => {
   let user_credentials = {};
@@ -41,8 +41,7 @@ describe("Sprint 02 - Conctact Suite - Contact Modifications", () => {
     // cy.deleteAllContacts();
     cy.Logout();
   });
-
-  it(
+  ~it(
     "Edit First Name of a Contact",
     { tags: ["@smoke", "@regression"] },
     () => {
@@ -65,7 +64,7 @@ describe("Sprint 02 - Conctact Suite - Contact Modifications", () => {
         .validateContactDetails(firstName, lastName)
         .clickEditContact();
 
-      EditcontactPage.validateFormVisible()
+      EditContactPage.validateFormVisible()
         .editFirstName(firstName, newFirstName)
         .saveEdit();
 
