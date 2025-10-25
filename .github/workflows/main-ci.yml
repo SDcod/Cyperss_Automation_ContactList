@@ -6,6 +6,10 @@ on:
       - main
     paths-ignore:
       - README.md
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      matrix:
+        containers: [1, 2] # Uses 2 parallel instances
 
 jobs:
   cypress-run-smoke:
@@ -16,7 +20,9 @@ jobs:
     env:
       CYPRESS_USER_EMAIL: ${{ secrets.CYPRESS_USER_EMAIL }}
       CYPRESS_USER_PASSWORD: ${{ secrets.CYPRESS_USER_PASSWORD }}
-
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,13 +32,15 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-ui-smoke-chrome
+          record: true
+          parallel: true # Runs test in parallel using settings above
 
     #uploads the test results under cypress/reports folder
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: Mocha-report-chrome-smoke
+          name: mochawesome-smoke-ui
           path: cypress/reports/html 
           retention-days: 7
 
@@ -48,6 +56,8 @@ jobs:
     env:
       CYPRESS_USER_EMAIL: ${{ secrets.CYPRESS_USER_EMAIL }}
       CYPRESS_USER_PASSWORD: ${{ secrets.CYPRESS_USER_PASSWORD }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -57,12 +67,14 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-ui-regression-chrome     # <-- your script
+          record: true
+          parallel: true # Runs test in parallel using settings above
 
       - name: Upload Regression Report
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: mochawesome-regression
+          name: mochawesome-regression-ui
           path: cypress/reports/html
           retention-days: 14
 
@@ -74,7 +86,9 @@ jobs:
 
     env:
       CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
-      
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -84,6 +98,8 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-api-smoke
+          record: true
+          parallel: true # Runs test in parallel using settings above
 
   # ------------------------- API tests regression ----------------------------
 
@@ -95,6 +111,8 @@ jobs:
 
     env:
       CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
       - uses: actions/checkout@v4
@@ -104,4 +122,6 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-api-regression     # <-- your script
+          record: true
+          parallel: true # Runs test in parallel using settings above
 
