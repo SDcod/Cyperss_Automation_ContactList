@@ -31,6 +31,8 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-ui-smoke-chrome
+        record: true
+        parallel: true # Runs test in parallel using settings above
 
     #uploads the test results under cypress/reports folder
       - name: Upload test results
@@ -93,6 +95,8 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-api-smoke
+          record: true
+          parallel: true # Runs test in parallel using settings above
 
   # ------------------------- API tests regression ----------------------------
 
@@ -114,4 +118,6 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-api-regression     # <-- your script
+          record: true
+          parallel: true # Runs test in parallel using settings above
 
