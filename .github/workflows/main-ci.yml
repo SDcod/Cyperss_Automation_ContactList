@@ -1,12 +1,12 @@
-name: Cypress Smoke and Regression Tests
+name: Cypress Tests
 
-on:
-  pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - README.md
-    # --- STRATEGY REMOVED FROM HERE ---
+on: [push]
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths-ignore:
+  #     - README.md
+  #   # --- STRATEGY REMOVED FROM HERE ---
 
 jobs:
   cypress-run-smoke:
