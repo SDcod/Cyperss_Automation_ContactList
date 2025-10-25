@@ -43,7 +43,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mochawesome-smoke-ui
+          name: mochawesome-smoke-ui-${{ matrix.containers }}
           path: cypress/reports/html 
           retention-days: 7
 
