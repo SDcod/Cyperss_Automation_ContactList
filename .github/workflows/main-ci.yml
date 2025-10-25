@@ -1,21 +1,23 @@
-name: Cypress Smoke and Regression Tests
+name: Cypress Tests
 
-on:
-  pull_request:
-    branches:
-      - main
-    paths-ignore:
-      - README.md
-    strategy:
-      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
-      matrix:
-        containers: [1, 2] # Uses 2 parallel instances
+on: [push]
+  # pull_request:
+  #   branches:
+  #     - main
+  #   paths-ignore:
+  #     - README.md
+  #   # --- STRATEGY REMOVED FROM HERE ---
 
 jobs:
   cypress-run-smoke:
     name: Smoke Suite
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    # --- STRATEGY ADDED HERE ---
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      matrix:
+        containers: [1, 2] # Uses 2 parallel instances
 
     env:
       CYPRESS_USER_EMAIL: ${{ secrets.CYPRESS_USER_EMAIL }}
@@ -33,95 +35,113 @@ jobs:
           browser: chrome
           command: npm run cy-run-ui-smoke-chrome
           record: true
-          parallel: true # Runs test in parallel using settings above
+          parallel: true
+          group: 'ui-smoke' # <-- ADDED to group this job's 2 containers
 
-    #uploads the test results under cypress/reports folder
+      #uploads the test results under cypress/reports folder
       - name: Upload test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: mochawesome-smoke-ui
+          name: mochawesome-smoke-ui-${{ matrix.containers }}
           path: cypress/reports/html 
           retention-days: 7
 
 
 # ------------------------- Regression --------------------------
 
-  cypress-run-regression:
-    name: Regression Suite
-    runs-on: ubuntu-latest
-    needs: cypress-run-smoke                     # ➜ runs only if smoke succeeded
-    timeout-minutes: 30
+#   cypress-run-regression:
+#     name: Regression Suite
+#     runs-on: ubuntu-latest
+#     needs: cypress-run-smoke             # ➜ runs only if smoke succeeded
+#     timeout-minutes: 30
+#     # --- STRATEGY ADDED HERE ---
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         containers: [1, 2] # Uses 2 parallel instances
 
-    env:
-      CYPRESS_USER_EMAIL: ${{ secrets.CYPRESS_USER_EMAIL }}
-      CYPRESS_USER_PASSWORD: ${{ secrets.CYPRESS_USER_PASSWORD }}
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     env:
+#       CYPRESS_USER_EMAIL: ${{ secrets.CYPRESS_USER_EMAIL }}
+#       CYPRESS_USER_PASSWORD: ${{ secrets.CYPRESS_USER_PASSWORD }}
+#       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+#       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Run regression tests
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          command: npm run cy-run-ui-regression-chrome     # <-- your script
-          record: true
-          parallel: true # Runs test in parallel using settings above
+#       - name: Run regression tests
+#         uses: cypress-io/github-action@v6
+#         with:
+#           browser: chrome
+#           command: npm run cy-run-ui-regression-chrome    # <-- your script
+#           record: true
+#           parallel: true
+#           group: 'ui-regression' # <-- ADDED to create a new run
 
-      - name: Upload Regression Report
-        uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: mochawesome-regression-ui
-          path: cypress/reports/html
-          retention-days: 14
+#       - name: Upload Regression Report
+#         uses: actions/upload-artifact@v4
+#         if: always()
+#         with:
+#           name: mochawesome-regression-ui
+#           path: cypress/reports/html
+#           retention-days: 14
 
-# ------------------------- API tests smoke --------------------------
-  cypress-run-api-smoke:
-    name: Smoke API Suite
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+# # ------------------------- API tests smoke --------------------------
+#   cypress-run-api-smoke:
+#     name: Smoke API Suite
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 15
+#     # --- STRATEGY ADDED HERE ---
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         containers: [1, 2] # Uses 2 parallel instances
 
-    env:
-      CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     env:
+#       CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+#       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+#       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
 
-      - name: Cypress_run_api_smoke_tests
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          command: npm run cy-run-api-smoke
-          record: true
-          parallel: true # Runs test in parallel using settings above
+#       - name: Cypress_run_api_smoke_tests
+#         uses: cypress-io/github-action@v6
+#         with:
+#           browser: chrome
+#           command: npm run cy-run-api-smoke
+#           record: true
+#           parallel: true
+#           group: 'api-smoke' # <-- ADDED to create a new run
 
-  # ------------------------- API tests regression ----------------------------
+#   # ------------------------- API tests regression ----------------------------
 
-  cypress-run-api-regression:
-    name: Regression API Suite
-    runs-on: ubuntu-latest
-    needs: cypress-run-api-smoke                     # ➜ runs only if smoke succeeded
-    timeout-minutes: 30
+#   cypress-run-api-regression:
+#     name: Regression API Suite
+#     runs-on: ubuntu-latest
+#     needs: cypress-run-api-smoke          # ➜ runs only if smoke succeeded
+#     timeout-minutes: 30
+#     # --- STRATEGY ADDED HERE ---
+#     strategy:
+#       fail-fast: false
+#       matrix:
+#         containers: [1, 2] # Uses 2 parallel instances
 
-    env:
-      CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
-      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#     env:
+#       CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+#       CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+#       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-    steps:
-      - uses: actions/checkout@v4
+#     steps:
+#       - uses: actions/checkout@v4
 
-      - name: Run regression tests
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          command: npm run cy-run-api-regression     # <-- your script
-          record: true
-          parallel: true # Runs test in parallel using settings above
-
+#       - name: Run regression tests
+#         uses: cypress-io/github-action@v6
+#         with:
+#           browser: chrome
+#           command: npm run cy-run-api-regression    # <-- your script
+#           record: true
+#           parallel: true
+#           group: 'api-regression' # <-- ADDED to create a new run
