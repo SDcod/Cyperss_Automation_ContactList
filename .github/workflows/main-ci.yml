@@ -31,8 +31,8 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-ui-smoke-chrome
-        record: true
-        parallel: true # Runs test in parallel using settings above
+          record: true
+          parallel: true # Runs test in parallel using settings above
 
     #uploads the test results under cypress/reports folder
       - name: Upload test results
