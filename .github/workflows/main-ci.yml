@@ -33,9 +33,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          command: npm run cy-run-ui-smoke-chrome
-          record: true
-          parallel: true
+          command: npm run cy-run-ui-smoke-chrome-ci
           group: 'ui-smoke' # <-- ADDED to group this job's 2 containers
 
       #uploads the test results under cypress/reports folder

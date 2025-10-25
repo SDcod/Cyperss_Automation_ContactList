@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy-run-ui-smoke-chrome-headed": "npx cypress run --headed --browser chrome --env grepTags=smoke",
     "cy-run-ui-smoke-chrome": "npx cypress run --browser chrome --env grepTags=@smoke --spec cypress/e2e/UI-Tests/**/*.spec.cy.js",
-    "cy-run-ui-smoke-chrome-cloud": "npx cypress run --browser chrome --env grepTags=@smoke --spec cypress/e2e/UI-Tests/**/*.spec.cy.js --record --key b8744d13-34d9-4204-8f2b-30d4c866c2f0",
+    "cy-run-ui-smoke-chrome-ci": "npx cypress run --browser chrome --env grepTags=@smoke --spec cypress/e2e/UI-Tests/**/*.spec.cy.js --record --key ${secrets.GITHUB_TOKEN} --parallel",
     "cy-run-ui-regression-chrome": "npx cypress run --browser chrome --env grepTags=@regression --spec cypress/e2e/UI-Tests/**/*.spec.cy.js",
     "cy-open-api": "npx cypress open --config-file configs/api-test.config.js",
     "cy-run-api-smoke": "npx cypress run --config-file configs/api-test.config.js --env grepTags=@smoke --spec cypress/e2e/API-Tests/*.spec.cy.js",
