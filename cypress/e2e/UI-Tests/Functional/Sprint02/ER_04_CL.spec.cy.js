@@ -1,7 +1,6 @@
 // ---Test Case Description---	                ---Tags---
 // Edit an existing contact	                smoke, regression
 // Delete an existing contact	                smoke, regression
-// Validate duplicate contact not allowed	    regression
 
 import LoginPage from "../../../../pages/LoginPage";
 import ContactListPage from "../../../../pages/ContactListPage";
@@ -41,8 +40,9 @@ describe("Sprint 02 - Conctact Suite - Contact Modifications", () => {
     // cy.deleteAllContacts();
     cy.Logout();
   });
-  ~it(
-    "Edit First Name of a Contact",
+
+  it(
+    "Edit First Name of a Contact - Save validate change - delete contact",
     { tags: ["@smoke", "@regression"] },
     () => {
       let testType = "allFields";
@@ -72,6 +72,11 @@ describe("Sprint 02 - Conctact Suite - Contact Modifications", () => {
       ContactDetailsPage.validateDetailsPage()
         .validateContactDetails(newFirstName, lastName)
         .confirmDeletePrompt(true);
+
+      //validate if contact is deleted
+      ContactListPage.validateContactListPage().validateContactDeleted(
+        contact_data[testType].email
+      );
     }
   );
 });

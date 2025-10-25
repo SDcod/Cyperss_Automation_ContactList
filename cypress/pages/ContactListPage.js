@@ -34,6 +34,7 @@ class ContactListPage {
     this.elements.listTable().should("be.visible");
     return this;
   }
+
   openContactRecordUsingName(name) {
     cy.contains(this.elements.contactRecordName, name)
       .should("be.visible")
@@ -45,6 +46,12 @@ class ContactListPage {
     cy.contains(this.elements.contactRecordEmail, email)
       .should("be.visible")
       .click();
+    return this;
+  }
+
+  validateContactDeleted(email) {
+    cy.contains(this.elements.contactRecordEmail, email).should("not.exist");
+
     return this;
   }
 }
