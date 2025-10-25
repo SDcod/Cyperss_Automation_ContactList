@@ -22,7 +22,7 @@ describe("Sprint 01 - Authentication Suite - Login", () => {
   });
 
   it(
-    "Login with valid credentials",
+    "Login using valid credentials",
     { tags: ["@smoke", "@regression"] },
     () => {
       //validate login page url
