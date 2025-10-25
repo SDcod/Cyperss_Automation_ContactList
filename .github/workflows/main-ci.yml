@@ -6,6 +6,10 @@ on:
       - main
     paths-ignore:
       - README.md
+    strategy:
+      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      matrix:
+        containers: [1, 2] # Uses 2 parallel instances
 
 jobs:
   cypress-run-smoke:
@@ -16,6 +20,7 @@ jobs:
     env:
       CYPRESS_USER_EMAIL: ${{ secrets.CYPRESS_USER_EMAIL }}
       CYPRESS_USER_PASSWORD: ${{ secrets.CYPRESS_USER_PASSWORD }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
     steps:
       - name: Checkout code
@@ -48,6 +53,7 @@ jobs:
     env:
       CYPRESS_USER_EMAIL: ${{ secrets.CYPRESS_USER_EMAIL }}
       CYPRESS_USER_PASSWORD: ${{ secrets.CYPRESS_USER_PASSWORD }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
     steps:
       - uses: actions/checkout@v4
@@ -57,6 +63,8 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-ui-regression-chrome     # <-- your script
+        record: true
+          parallel: true # Runs test in parallel using settings above
 
       - name: Upload Regression Report
         uses: actions/upload-artifact@v4
@@ -74,6 +82,7 @@ jobs:
 
     env:
       CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
       
     steps:
       - name: Checkout code
@@ -95,6 +104,7 @@ jobs:
 
     env:
       CYPRESS_API_KEY: ${{ secrets.CYPRESS_API_KEY }}
+      CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
     steps:
       - uses: actions/checkout@v4
