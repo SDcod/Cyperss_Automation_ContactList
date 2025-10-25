@@ -31,7 +31,7 @@ describe("Sprint 01 - Authentication Suite - Registration", () => {
     cy.visit("/");
   });
 
-  it("Register with valid user", { tags: ["@smoke", "@regression"] }, () => {
+  it("Register using valid user", { tags: ["@smoke", "@regression"] }, () => {
     currentUser = "validRegistrableUser";
     //click signup button and navigate to it
     LoginPage.clickSignup();
