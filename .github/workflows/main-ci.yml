@@ -63,8 +63,8 @@ jobs:
         with:
           browser: chrome
           command: npm run cy-run-ui-regression-chrome     # <-- your script
-        record: true
-        parallel: true # Runs test in parallel using settings above
+          record: true
+          parallel: true # Runs test in parallel using settings above
 
       - name: Upload Regression Report
         uses: actions/upload-artifact@v4
